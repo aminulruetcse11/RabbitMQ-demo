@@ -3,9 +3,9 @@ Rabbit MQ Publisher and receiver demo project
 # Docker image for RabbitMQ
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
 
-After run this command on windows powershell, browse the following url.
-http://localhost:15672/
-Username: guest
+After running this command on windows powershell, browse the following url- <br />
+http://localhost:15672 <br />
+Username: guest<br />
 password: guest
 
 # Package need to install
