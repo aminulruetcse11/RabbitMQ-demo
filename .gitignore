@@ -3,3 +3,7 @@
 ################################################################################
 
 /RabbitMQ/.vs
+/RabbitMQ/RabbitMQReceiver/bin/Debug/net7.0
+/RabbitMQ/RabbitMQReceiver/obj
+/RabbitMQ/RabbitMQSender/bin/Debug/net7.0
+/RabbitMQ/RabbitMQSender/obj
