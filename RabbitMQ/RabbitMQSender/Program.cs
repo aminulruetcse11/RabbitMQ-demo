@@ -1,27 +1,25 @@
 ﻿using RabbitMQ.Client;
-using System.Text;
+using RabbitMQSender;
 
-var factory = new ConnectionFactory();
-factory.Uri = new Uri("amqp://guest:guest@localhost:5672");
-factory.ClientProvidedName = "Rabbit MQ sender";
-
-IConnection connection = factory.CreateConnection();
-IModel channel = connection.CreateModel();
-
-string exchangeName = "AminulExchange";
+var rabbitMQService = new RabbitMQService();
+string exchangeName = "AminulExchangeTwo";
 string routingKey = "aminul-routing-key";
-string queueName = "aminulQueue";
+string queueName = "viva";
+IConnection connection = rabbitMQService.CreateConnection();
+IModel channel = rabbitMQService.CreateChannel(connection,exchangeName,routingKey,queueName);
+IModel channelbbl = rabbitMQService.CreateChannel(connection,exchangeName,"bbl-routing-key","bbl");
 
-channel.ExchangeDeclare(exchangeName, ExchangeType.Direct);
-channel.QueueDeclare(queueName, false, false, false, null);
-channel.QueueBind(queueName, exchangeName, routingKey);
-int counter = 0;
-while (true)
-{
-    Thread.Sleep(1000);
-    byte[] message = Encoding.UTF8.GetBytes($"alpha {counter}");
-    channel.BasicPublish(exchangeName, routingKey, null, message);
-    counter++;
-}
+var data = new AttendanceRepository().GetData();
+rabbitMQService.PublishMessage(channel, connection, exchangeName, routingKey, data);
+rabbitMQService.PublishMessage(channelbbl, connection, exchangeName, routingKey, data);
+
+
+Console.ReadLine();
+
 channel.Close();
+
+
 connection.Close();
+
+
+
